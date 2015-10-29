@@ -37,8 +37,8 @@
 			],
 			"output_mapping": [
 				{
-					"input_parameter": "contigset_out",
-					"target_property": "contigset_out"
+					"input_parameter": "contigset_id",
+					"target_property": "contigset_id"
 				},
 				{
 					"narrative_system_variable": "workspace",
