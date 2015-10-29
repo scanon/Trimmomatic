@@ -2,7 +2,7 @@ module-name:
     Trimmomatic
 
 module-description:
-    A KBase module
+    A KBase module that wraps the read trimming/qc program Trimmomatic
 
 service-language:
     python
