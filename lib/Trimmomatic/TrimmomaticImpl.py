@@ -94,7 +94,7 @@ This sample module contains one small method - count_contigs.
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
-        report = stdout
+        report = "cmdstring:\n" + cmdstring + "\nstdout:\n" + stdout + "\nstderr\n" + stderr
         #END runTrimmomatic
 
         # At some point might do deeper type checking...
