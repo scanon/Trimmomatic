@@ -60,7 +60,7 @@ This sample module contains one small method - count_contigs.
         wsClient = workspaceService(self.workspaceURL, token=token)
         headers = {'Authorization': 'OAuth '+token}
 
-        TrimmomaticCmd = '/usr/bin/java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33 /tmp/tmp_forward /tmp/tmp_reverse /tmp/tmp_out_corrected /tmp/tmp_out_forward_unpaired /tmp/tmp_out_reverse_unpaired '
+        TrimmomaticCmd = '/usr/bin/java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33 /tmp/tmp_forward.gz /tmp/tmp_reverse.gz /tmp/tmp_out_corrected /tmp/tmp_out_forward_unpaired /tmp/tmp_out_reverse_unpaired '
         TrimmomaticParams = 'ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
     
 
@@ -76,14 +76,14 @@ This sample module contains one small method - count_contigs.
         if 'lib2' in pairedEndReadLibrary['data']:
             reverse_reads = pairedEndReadLibrary['data']['lib2']
 
-        forward_reads_file = open('/tmp/tmp_forward', 'w', 0)
+        forward_reads_file = open('/tmp/tmp_forward.gz', 'w', 0)
 
         r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
         for line in r.iter_lines():
             if line:
                 forward_reads_file.write(line)
 
-        reverse_reads_file = open('/tmp/tmp_reverse', 'w', 0)
+        reverse_reads_file = open('/tmp/tmp_reverse.gz', 'w', 0)
 
         r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
         for line in r.iter_lines():
