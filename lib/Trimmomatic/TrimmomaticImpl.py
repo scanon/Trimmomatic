@@ -78,14 +78,14 @@ This sample module contains one small method - count_contigs.
 
         forward_reads_file = open('/tmp/tmp_forward', 'w', 0)
 
-        r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id'], stream=True, headers=headers)
+        r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
         for line in r.iter_lines():
             if line:
                 forward_reads_file.write(line)
 
         reverse_reads_file = open('/tmp/tmp_reverse', 'w', 0)
 
-        r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id'], stream=True, headers=headers)
+        r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
         for line in r.iter_lines():
             if line:
                 forward_reads_file.write(line)
@@ -94,7 +94,7 @@ This sample module contains one small method - count_contigs.
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
-        report = "cmdstring:\n" + cmdstring + "\nstdout:\n" + stdout + "\nstderr\n" + stderr
+        report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr " + stderr
         #END runTrimmomatic
 
         # At some point might do deeper type checking...
