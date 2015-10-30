@@ -79,16 +79,14 @@ This sample module contains one small method - count_contigs.
         forward_reads_file = open('/tmp/tmp_forward.gz', 'w', 0)
 
         r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
-        for line in r.iter_lines():
-            if line:
-                forward_reads_file.write(line)
+        for chunk in r.iter_content(2048):
+            forward_reads_file.write(chunk)
 
         reverse_reads_file = open('/tmp/tmp_reverse.gz', 'w', 0)
 
         r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
-        for line in r.iter_lines():
-            if line:
-                forward_reads_file.write(line)
+        for chunk in r.iter_content(2048):
+            forward_reads_file.write(chunk)
 
         cmdstring = TrimmomaticCmd + TrimmomaticParams
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
