@@ -201,6 +201,103 @@ contigset_id - the ContigSet to count.
     }
 }
  
+
+
+=head2 runTrimmomatic
+
+  $report = $obj->runTrimmomatic($input_params)
+
+=over 4
+
+=item Parameter and return types
+
+=begin html
+
+<pre>
+$input_params is a Trimmomatic.TrimmomaticInput
+$report is a string
+TrimmomaticInput is a reference to a hash where the following keys are defined:
+	input_ws has a value which is a Trimmomatic.workspace_name
+	output_ws has a value which is a Trimmomatic.workspace_name
+	input_paired_end_library has a value which is a string
+	output_paired_end_library has a value which is a string
+	output_unpaired_forward has a value which is a string
+	output_unpaired_reverse has a value which is a string
+workspace_name is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+$input_params is a Trimmomatic.TrimmomaticInput
+$report is a string
+TrimmomaticInput is a reference to a hash where the following keys are defined:
+	input_ws has a value which is a Trimmomatic.workspace_name
+	output_ws has a value which is a Trimmomatic.workspace_name
+	input_paired_end_library has a value which is a string
+	output_paired_end_library has a value which is a string
+	output_unpaired_forward has a value which is a string
+	output_unpaired_reverse has a value which is a string
+workspace_name is a string
+
+
+=end text
+
+=item Description
+
+
+
+=back
+
+=cut
+
+ sub runTrimmomatic
+{
+    my($self, @args) = @_;
+
+# Authentication: required
+
+    if ((my $n = @args) != 1)
+    {
+	Bio::KBase::Exceptions::ArgumentValidationError->throw(error =>
+							       "Invalid argument count for function runTrimmomatic (received $n, expecting 1)");
+    }
+    {
+	my($input_params) = @args;
+
+	my @_bad_arguments;
+        (ref($input_params) eq 'HASH') or push(@_bad_arguments, "Invalid type for argument 1 \"input_params\" (value was \"$input_params\")");
+        if (@_bad_arguments) {
+	    my $msg = "Invalid arguments passed to runTrimmomatic:\n" . join("", map { "\t$_\n" } @_bad_arguments);
+	    Bio::KBase::Exceptions::ArgumentValidationError->throw(error => $msg,
+								   method_name => 'runTrimmomatic');
+	}
+    }
+
+    my $result = $self->{client}->call($self->{url}, $self->{headers}, {
+	method => "Trimmomatic.runTrimmomatic",
+	params => \@args,
+    });
+    if ($result) {
+	if ($result->is_error) {
+	    Bio::KBase::Exceptions::JSONRPC->throw(error => $result->error_message,
+					       code => $result->content->{error}->{code},
+					       method_name => 'runTrimmomatic',
+					       data => $result->content->{error}->{error} # JSON::RPC::ReturnObject only supports JSONRPC 1.1 or 1.O
+					      );
+	} else {
+	    return wantarray ? @{$result->result} : $result->result->[0];
+	}
+    } else {
+        Bio::KBase::Exceptions::HTTP->throw(error => "Error invoking method runTrimmomatic",
+					    status_line => $self->{client}->status_line,
+					    method_name => 'runTrimmomatic',
+				       );
+    }
+}
+ 
   
 
 sub version {
@@ -214,16 +311,16 @@ sub version {
             Bio::KBase::Exceptions::JSONRPC->throw(
                 error => $result->error_message,
                 code => $result->content->{code},
-                method_name => 'count_contigs',
+                method_name => 'runTrimmomatic',
             );
         } else {
             return wantarray ? @{$result->result} : $result->result->[0];
         }
     } else {
         Bio::KBase::Exceptions::HTTP->throw(
-            error => "Error invoking method count_contigs",
+            error => "Error invoking method runTrimmomatic",
             status_line => $self->{client}->status_line,
-            method_name => 'count_contigs',
+            method_name => 'runTrimmomatic',
         );
     }
 }
@@ -344,6 +441,51 @@ contig_count has a value which is an int
 
 a reference to a hash where the following keys are defined:
 contig_count has a value which is an int
+
+
+=end text
+
+=back
+
+
+
+=head2 TrimmomaticInput
+
+=over 4
+
+
+
+=item Description
+
+using KBaseFile.PairedEndLibrary
+
+
+=item Definition
+
+=begin html
+
+<pre>
+a reference to a hash where the following keys are defined:
+input_ws has a value which is a Trimmomatic.workspace_name
+output_ws has a value which is a Trimmomatic.workspace_name
+input_paired_end_library has a value which is a string
+output_paired_end_library has a value which is a string
+output_unpaired_forward has a value which is a string
+output_unpaired_reverse has a value which is a string
+
+</pre>
+
+=end html
+
+=begin text
+
+a reference to a hash where the following keys are defined:
+input_ws has a value which is a Trimmomatic.workspace_name
+output_ws has a value which is a Trimmomatic.workspace_name
+input_paired_end_library has a value which is a string
+output_paired_end_library has a value which is a string
+output_unpaired_forward has a value which is a string
+output_unpaired_reverse has a value which is a string
 
 
 =end text

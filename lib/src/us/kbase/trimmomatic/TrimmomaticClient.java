@@ -159,4 +159,21 @@ public class TrimmomaticClient {
         List<CountContigsResults> res = caller.jsonrpcCall("Trimmomatic.count_contigs", args, retType, true, true, jsonRpcContext);
         return res.get(0);
     }
+
+    /**
+     * <p>Original spec-file function name: runTrimmomatic</p>
+     * <pre>
+     * </pre>
+     * @param   inputParams   instance of type {@link us.kbase.trimmomatic.TrimmomaticInput TrimmomaticInput}
+     * @return   parameter "report" of String
+     * @throws IOException if an IO exception occurs
+     * @throws JsonClientException if a JSON RPC exception occurs
+     */
+    public String runTrimmomatic(TrimmomaticInput inputParams, RpcContext... jsonRpcContext) throws IOException, JsonClientException {
+        List<Object> args = new ArrayList<Object>();
+        args.add(inputParams);
+        TypeReference<List<String>> retType = new TypeReference<List<String>>() {};
+        List<String> res = caller.jsonrpcCall("Trimmomatic.runTrimmomatic", args, retType, true, true, jsonRpcContext);
+        return res.get(0);
+    }
 }

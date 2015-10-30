@@ -63,6 +63,9 @@ async_check_methods = {}
 async_run_methods['Trimmomatic.count_contigs_async'] = ['Trimmomatic', 'count_contigs']
 async_check_methods['Trimmomatic.count_contigs_check'] = ['Trimmomatic', 'count_contigs']
 sync_methods['Trimmomatic.count_contigs'] = True
+async_run_methods['Trimmomatic.runTrimmomatic_async'] = ['Trimmomatic', 'runTrimmomatic']
+async_check_methods['Trimmomatic.runTrimmomatic_check'] = ['Trimmomatic', 'runTrimmomatic']
+sync_methods['Trimmomatic.runTrimmomatic'] = True
 
 class AsyncJobServiceClient(object):
 
@@ -337,6 +340,10 @@ class Application(object):
                              name='Trimmomatic.count_contigs',
                              types=[basestring, basestring])
         self.method_authentication['Trimmomatic.count_contigs'] = 'required'
+        self.rpc_service.add(impl_Trimmomatic.runTrimmomatic,
+                             name='Trimmomatic.runTrimmomatic',
+                             types=[dict])
+        self.method_authentication['Trimmomatic.runTrimmomatic'] = 'required'
         self.auth_client = biokbase.nexus.Client(
             config={'server': 'nexus.api.globusonline.org',
                     'verify_ssl': True,

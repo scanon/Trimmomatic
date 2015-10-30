@@ -23,4 +23,22 @@ module Trimmomatic {
 	contigset_id - the ContigSet to count.
 	*/
 	funcdef count_contigs(workspace_name,contigset_id) returns (CountContigsResults) authentication required;
+
+
+
+	/* using KBaseFile.PairedEndLibrary */
+
+	typedef structure {
+		workspace_name input_ws;
+		workspace_name output_ws;
+		string input_paired_end_library;
+		string output_paired_end_library;
+		string output_unpaired_forward;
+		string output_unpaired_reverse;
+	} TrimmomaticInput;
+
+	funcdef runTrimmomatic(TrimmomaticInput input_params) 
+		returns (string report) 
+		authentication required;
+
 };
