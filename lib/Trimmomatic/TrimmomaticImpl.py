@@ -1,6 +1,9 @@
 #BEGIN_HEADER
 from biokbase.workspace.client import Workspace as workspaceService
 import requests
+import subprocess
+import os
+import sys
 #END_HEADER
 
 
