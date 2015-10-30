@@ -60,7 +60,7 @@ This sample module contains one small method - count_contigs.
         wsClient = workspaceService(self.workspaceURL, token=token)
         headers = {'Authorization': 'OAuth '+token}
 
-        TrimmomaticCmd = '/usr/bin/java -jar /kb/module/Trimmomatic-0.33/Trimmomatic-0.33.jar PE -phred33 /tmp/tmp_forward /tmp/tmp_reverse /tmp/tmp_out_corrected /tmp/tmp_out_forward_unpaired /tmp/tmp_out_reverse_unpaired '
+        TrimmomaticCmd = '/usr/bin/java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33 /tmp/tmp_forward /tmp/tmp_reverse /tmp/tmp_out_corrected /tmp/tmp_out_forward_unpaired /tmp/tmp_out_reverse_unpaired '
         TrimmomaticParams = 'ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
     
 
