@@ -82,7 +82,7 @@ This sample module contains one small method - count_contigs.
 
         reverse_reads_file = open('/tmp/tmp_reverse', 'w', 0)
 
-        r = requests.get(forward_reads['url']+'/node/'+forward_reads['id'], stream=True, headers=headers)
+        r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id'], stream=True, headers=headers)
         for line in r.iter_lines():
             if line:
                 forward_reads_file.write(line)
