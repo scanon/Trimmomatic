@@ -91,7 +91,7 @@ This sample module contains one small method - count_contigs.
                 forward_reads_file.write(line)
 
         cmdstring = TrimmomaticCmd + TrimmomaticParams
-        cmdProcess = subprocess.Popen(cmdstring, stderr=subprocess.PIPE, shell=True)
+        cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
         report = stdout
