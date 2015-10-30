@@ -67,23 +67,23 @@ This sample module contains one small method - count_contigs.
         except: 
             raise ValueError("Couldn't get object")
 
-        if 'lib1' in pairedEndReadLibrary['data']
+        if 'lib1' in pairedEndReadLibrary['data']:
             forward_reads = pairedEndReadLibrary['data']['lib1']
 
-        if 'lib2' in pairedEndReadLibrary['data']
+        if 'lib2' in pairedEndReadLibrary['data']:
             reverse_reads = pairedEndReadLibrary['data']['lib2']
 
         forward_reads_file = open('/tmp/tmp_forward', 'w', 0)
 
         r = requests.get(forward_reads['url']+'/node/'+forward_reads['id'], stream=True, headers=headers)
-        for line in r.iter_lines()
+        for line in r.iter_lines():
             if line:
                 forward_reads_file.write(line)
 
         reverse_reads_file = open('/tmp/tmp_reverse', 'w', 0)
 
         r = requests.get(forward_reads['url']+'/node/'+forward_reads['id'], stream=True, headers=headers)
-        for line in r.iter_lines()
+        for line in r.iter_lines():
             if line:
                 forward_reads_file.write(line)
 
