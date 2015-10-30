@@ -1,0 +1,39 @@
+#
+# define display information
+#
+name: Trimmomatic Read Trimming
+tooltip: |
+	Trim illumina reads
+screenshots: []
+
+icon: icon.png
+
+#
+# define a set of similar methods that might be useful to the user
+#
+suggestions:
+	apps:
+		related:
+			[]
+		next:
+			[]
+	methods:
+		related:
+			[]
+		next:
+			[annotate_contigset]
+
+#
+# Configure the display and description of parameters
+#
+parameters :
+    input_paired_end_library :
+        ui-name : |
+            Pairedend Library Object
+        short-hint : |
+            The read set to examine
+        long-hint  : |
+            The read set for which you want to trim.
+
+description : |
+	<p>This is a quick Narrative Method for running Trimmomatic pairedend illumina read trimming.</p>
