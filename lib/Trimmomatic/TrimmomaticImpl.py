@@ -71,24 +71,24 @@ This sample module contains one small method - count_contigs.
             raise ValueError("Couldn't get object from workspace")
 
         if 'lib1' in pairedEndReadLibrary['data']:
-            forward_reads = pairedEndReadLibrary['data']['lib1']
+            forward_reads_handle = pairedEndReadLibrary['data']['lib1']['file']
         elif 'handle_1':
             forward_reads = pairedEndReadLibrary['data']['handle_1']
 
         if 'lib2' in pairedEndReadLibrary['data']:
-            reverse_reads = pairedEndReadLibrary['data']['lib2']
+            reverse_reads = pairedEndReadLibrary['data']['lib2']['file']
         elif 'handle_2':
             reverse_reads = pairedEndReadLibrary['data']['handle_2']
 
         forward_reads_file = open('/tmp/tmp_forward.gz', 'w', 0)
 
-        r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
+        r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
         for chunk in r.iter_content(2048):
             forward_reads_file.write(chunk)
 
         reverse_reads_file = open('/tmp/tmp_reverse.gz', 'w', 0)
 
-        r = requests.get(forward_reads['file']['url']+'/node/'+forward_reads['file']['id']+'?download', stream=True, headers=headers)
+        r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
         for chunk in r.iter_content(2048):
             forward_reads_file.write(chunk)
 
