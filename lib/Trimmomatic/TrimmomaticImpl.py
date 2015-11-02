@@ -4,6 +4,7 @@ import requests
 import subprocess
 import os
 import sys
+import re
 #END_HEADER
 
 
@@ -60,7 +61,7 @@ This sample module contains one small method - count_contigs.
         wsClient = workspaceService(self.workspaceURL, token=token)
         headers = {'Authorization': 'OAuth '+token}
 
-        TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33 /tmp/tmp_forward.gz /tmp/tmp_reverse.gz /tmp/tmp_out_corrected /tmp/tmp_out_forward_unpaired /tmp/tmp_out_reverse_unpaired '
+        TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33'
         TrimmomaticParams = 'ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
     
 
@@ -71,7 +72,7 @@ This sample module contains one small method - count_contigs.
             raise ValueError("Couldn't get object from workspace")
 
         if 'lib1' in pairedEndReadLibrary['data']:
-            forward_reads_handle = pairedEndReadLibrary['data']['lib1']['file']
+            forward_reads = pairedEndReadLibrary['data']['lib1']['file']
         elif 'handle_1':
             forward_reads = pairedEndReadLibrary['data']['handle_1']
 
@@ -80,19 +81,29 @@ This sample module contains one small method - count_contigs.
         elif 'handle_2':
             reverse_reads = pairedEndReadLibrary['data']['handle_2']
 
-        forward_reads_file = open('/tmp/tmp_forward.gz', 'w', 0)
+        forward_reads_file = open(forward_reads['file_name'], 'w', 0)
+
 
         r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
         for chunk in r.iter_content(2048):
             forward_reads_file.write(chunk)
 
-        reverse_reads_file = open('/tmp/tmp_reverse.gz', 'w', 0)
+        reverse_reads_file = open(reverse_reads['file_name'], 'w', 0)
 
         r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
         for chunk in r.iter_content(2048):
             forward_reads_file.write(chunk)
 
-        cmdstring = TrimmomaticCmd + TrimmomaticParams
+        s = " "
+        cmdstring = s.join( TrimmomaticCmd, 
+                            forward_reads['file_name'], 
+                            reverse_reads['file_name'],
+                            'forward_paired_'   +forward_reads['file_name'],
+                            'forward_unpaired_' +forward_reads['file_name'],
+                            'reverse_paired_'   +reverse_reads['file_name'],
+                            'reverse_unpaired_' +reverse_reads['file_name'],
+                            TrimmomaticParams )
+
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
