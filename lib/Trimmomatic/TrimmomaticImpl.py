@@ -68,13 +68,17 @@ This sample module contains one small method - count_contigs.
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 
                                                             'workspace' : input_params['input_ws']}])[0]
         except: 
-            raise ValueError("Couldn't get object")
+            raise ValueError("Couldn't get object from workspace")
 
         if 'lib1' in pairedEndReadLibrary['data']:
             forward_reads = pairedEndReadLibrary['data']['lib1']
+        elif 'handle_1':
+            forward_reads = pairedEndReadLibrary['data']['handle_1']
 
         if 'lib2' in pairedEndReadLibrary['data']:
             reverse_reads = pairedEndReadLibrary['data']['lib2']
+        elif 'handle_2':
+            reverse_reads = pairedEndReadLibrary['data']['handle_2']
 
         forward_reads_file = open('/tmp/tmp_forward.gz', 'w', 0)
 
