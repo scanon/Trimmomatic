@@ -95,14 +95,14 @@ This sample module contains one small method - count_contigs.
             forward_reads_file.write(chunk)
 
         s = " "
-        cmdstring = s.join( TrimmomaticCmd, 
+        cmdstring = s.join( [TrimmomaticCmd, 
                             forward_reads['file_name'], 
                             reverse_reads['file_name'],
                             'forward_paired_'   +forward_reads['file_name'],
                             'forward_unpaired_' +forward_reads['file_name'],
                             'reverse_paired_'   +reverse_reads['file_name'],
                             'reverse_unpaired_' +reverse_reads['file_name'],
-                            TrimmomaticParams )
+                            TrimmomaticParams] )
 
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
