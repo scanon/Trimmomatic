@@ -73,7 +73,7 @@ This sample module contains one small method - count_contigs.
 
         if 'lib1' in pairedEndReadLibrary['data']:
             forward_reads = pairedEndReadLibrary['data']['lib1']['file']
-        elif 'handle_1' in pairedEndReadLibrary['data':
+        elif 'handle_1' in pairedEndReadLibrary['data']:
             forward_reads = pairedEndReadLibrary['data']['handle_1']
 
         if 'lib2' in pairedEndReadLibrary['data']:
