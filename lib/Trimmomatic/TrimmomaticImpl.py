@@ -62,7 +62,7 @@ This sample module contains one small method - count_contigs.
         headers = {'Authorization': 'OAuth '+token}
 
         TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33'
-        TrimmomaticParams = 'ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
+        TrimmomaticParams = 'ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
     
 
         try:
