@@ -104,10 +104,13 @@ This sample module contains one small method - count_contigs.
                             'reverse_unpaired_' +reverse_reads['file_name'],
                             TrimmomaticParams) )
 
-        cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+        cmdstring2 = "head " + forward_reads['file_name']
+        cmdProcess = subprocess.Popen(cmdstring2, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
         report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr " + stderr
+
+
         #END runTrimmomatic
 
         # At some point might do deeper type checking...
