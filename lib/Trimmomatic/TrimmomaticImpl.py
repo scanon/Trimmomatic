@@ -104,7 +104,7 @@ This sample module contains one small method - count_contigs.
                             'reverse_unpaired_' +reverse_reads['file_name'],
                             TrimmomaticParams) )
 
-        cmdstring2 = "head " + forward_reads['file_name']
+        cmdstring2 = "wc -l " + forward_reads['file_name']
         cmdProcess = subprocess.Popen(cmdstring2, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
