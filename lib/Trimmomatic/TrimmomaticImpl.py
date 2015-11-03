@@ -85,13 +85,13 @@ This sample module contains one small method - count_contigs.
 
 
         r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-        for chunk in r.iter_content(2048):
+        for chunk in r.iter_content(1024):
             forward_reads_file.write(chunk)
 
         reverse_reads_file = open(reverse_reads['file_name'], 'w', 0)
 
         r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-        for chunk in r.iter_content(2048):
+        for chunk in r.iter_content(1024):
             forward_reads_file.write(chunk)
 
         s = " "
