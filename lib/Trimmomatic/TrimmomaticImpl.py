@@ -85,14 +85,9 @@ This sample module contains one small method - count_contigs.
             reverse_reads={}
 
         forward_reads_file = open(forward_reads['file_name'], 'w', 0)
-
-	if 'file_name' in reverse_reads:
-          reverse_reads_file = open(reverse_reads['file_name'], 'w', 0)
-
-        if 'interleaved' in pairedEndReadLibrary['data']:
-            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-            for chunk in r.iter_content(1024):
-                forward_reads_file.write(chunk)
+        r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
+        for chunk in r.iter_content(1024):
+            forward_reads_file.write(chunk)
 
         if 'interleaved' in pairedEndReadLibrary['data'] and pairedEndReadLibrary['data']['interleaved']:
             if re.search('gz', forward_reads['file_name'], re.I):
@@ -113,38 +108,25 @@ This sample module contains one small method - count_contigs.
             forward_reads['file_name']='forward.fastq'
             reverse_reads['file_name']='reverse.fastq'
         else:
-            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-            for chunk in r.iter_content(1024):
-                forward_reads_file.write(chunk)
-
-            cmdstring = " ".join( (TrimmomaticCmd, 
-                            'forward.fastq', 
-                            'reverse.fastq',
-                            'forward_paired.fastq',  
-                            'forward_unpaired.fastq',
-                            'reverse_paired.fastq',
-                            'reverse_unpaired.fastq',
-                            TrimmomaticParams) )
-        else:
             reverse_reads_file = open(reverse_reads['file_name'], 'w', 0)
             r = requests.get(reverse_reads['url']+'/node/'+reverse_reads['id']+'?download', stream=True, headers=headers)
             for chunk in r.iter_content(1024):
                 reverse_reads_file.write(chunk)
 
-            cmdstring = " ".join( (TrimmomaticCmd, 
-                            forward_reads['file_name'], 
-                            reverse_reads['file_name'],
-                            'forward_paired_'   +forward_reads['file_name'],
-                            'forward_unpaired_' +forward_reads['file_name'],
-                            'reverse_paired_'   +reverse_reads['file_name'],
-                            'reverse_unpaired_' +reverse_reads['file_name'],
-                            TrimmomaticParams) )
+        cmdstring = " ".join( (TrimmomaticCmd, 
+                        forward_reads['file_name'], 
+                        reverse_reads['file_name'],
+                        'forward_paired_'   +forward_reads['file_name'],
+                        'forward_unpaired_' +forward_reads['file_name'],
+                        'reverse_paired_'   +reverse_reads['file_name'],
+                        'reverse_unpaired_' +reverse_reads['file_name'],
+                        TrimmomaticParams) )
 
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
         report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr " + stderr
-
+        #print report
 
         #END runTrimmomatic
 
