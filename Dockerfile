@@ -1,4 +1,4 @@
-FROM kbase/depl:latest
+FROM kbase/sdkbase:latest
 MAINTAINER KBase Developer
 # Install the SDK (should go away eventually)
 RUN \
@@ -20,19 +20,16 @@ RUN \
 # any required dependencies for your module.
 
 # RUN apt-get update
-COPY ./ /kb/module
 WORKDIR /kb/module
 
-ADD http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.33.zip Trimmomatic-0.33.zip
-RUN unzip Trimmomatic-0.33.zip
+RUN curl http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmomatic-0.33.zip -o Trimmomatic-0.33.zip && \
+    unzip Trimmomatic-0.33.zip
 
 # -----------------------------------------
 
 # COPY ./ /kb/module
+COPY ./ /kb/module
 RUN mkdir -p /kb/module/work
-ENV PATH=$PATH:/kb/dev_container/modules/kb_sdk/bin
-
-# WORKDIR /kb/module
 
 RUN make
 

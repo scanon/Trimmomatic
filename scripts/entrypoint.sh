@@ -13,6 +13,8 @@ elif [ "${1}" = "async" ] ; then
   sh ./scripts/run_async.sh
 elif [ "${1}" = "init" ] ; then
   echo "Initialize module"
+elif [ "${1}" = "shell" ] ; then
+  bash --login
 else
   echo Unknown
 fi
