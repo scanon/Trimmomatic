@@ -69,8 +69,9 @@ This sample module contains one small method - count_contigs.
         try:
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 
                                                             'workspace' : input_params['input_ws']}])[0]
-        except: 
-            raise ValueError("Couldn't get object from workspace")
+        except:
+            print "get objects failed"
+            raise
 
         if 'lib1' in pairedEndReadLibrary['data']:
             forward_reads = pairedEndReadLibrary['data']['lib1']['file']
@@ -80,22 +81,41 @@ This sample module contains one small method - count_contigs.
             reverse_reads = pairedEndReadLibrary['data']['lib2']['file']
         elif 'handle_2' in pairedEndReadLibrary['data']:
             reverse_reads = pairedEndReadLibrary['data']['handle_2']
+        else:
+            reverse_reads={}
 
         forward_reads_file = open(forward_reads['file_name'], 'w', 0)
-        r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-        for chunk in r.iter_content(1024):
-            forward_reads_file.write(chunk)
+
+	if 'file_name' in reverse_reads:
+          reverse_reads_file = open(reverse_reads['file_name'], 'w', 0)
+
+        if 'interleaved' in pairedEndReadLibrary['data']:
+            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
+            for chunk in r.iter_content(1024):
+                forward_reads_file.write(chunk)
 
         if 'interleaved' in pairedEndReadLibrary['data'] and pairedEndReadLibrary['data']['interleaved']:
             if re.search('gz', forward_reads['file_name'], re.I):
-                cmdstring = '/bin/bash zcat ' + forward_reads['file_name']
+                bcmdstring = 'zcat ' + forward_reads['file_name']
             else:    
-                cmdstring = '/bin/bash cat ' + forward_reads['file_name'] 
+                bcmdstring = 'cat ' + forward_reads['file_name'] 
 
-            cmdstring += ' |paste - - - - - - - - |tee >(cut -f 1-4 | tr "\t" "\n" > forward.fastq) | cut -f 5-8 | tr "\t" "\n" > reverse.fastq'
+            cmdstring = bcmdstring + ' |paste - - - - - - - - |cut -f 1-4 | tr "\t" "\n" > forward.fastq'
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             stdout, stderr = cmdProcess.communicate()
+            # Check return status
             report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+            cmdstring = bcmdstring + ' |paste - - - - - - - - |cut -f 5-8 | tr "\t" "\n" > reverse.fastq'
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            stdout, stderr = cmdProcess.communicate()
+            # Check return status
+            report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+            forward_reads['file_name']='forward.fastq'
+            reverse_reads['file_name']='reverse.fastq'
+        else:
+            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
+            for chunk in r.iter_content(1024):
+                forward_reads_file.write(chunk)
 
             cmdstring = " ".join( (TrimmomaticCmd, 
                             'forward.fastq', 

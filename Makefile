@@ -15,6 +15,8 @@ ANT = $(KB_RUNTIME)/ant/bin/ant
 
 default: compile-kb-module build-startup-script build-executable-script
 
+.PHONY: test
+
 compile-kb-module:
 	kb-mobu compile $(SPEC_FILE) \
 		--out $(LIB_DIR) \
@@ -41,6 +43,14 @@ build-startup-script:
 	echo 'export PYTHONPATH=$(DIR)/$(LIB_DIR):$$PATH:$$PYTHONPATH' >> $(SCRIPTS_DIR)/$(STARTUP_SCRIPT_NAME)
 	echo 'uwsgi --master --processes 5 --threads 5 --http :5000 --wsgi-file $(DIR)/$(LIB_DIR)/$(SERVICE_CAPS)/$(SERVICE_CAPS)Server.py' >> $(SCRIPTS_DIR)/$(STARTUP_SCRIPT_NAME)
 	chmod +x $(SCRIPTS_DIR)/$(STARTUP_SCRIPT_NAME)
+
+docker-test:
+	docker build -t $(SERVICE):test .
+	docker run -it -v $(shell pwd)/work:/kb/module/work --rm $(SERVICE):test test
+test:
+	echo "Run your tests stupid"
+	nosetests -x -v -s
+	ls -l
 
 clean:
 	rm -rfv $(LBIN_DIR)
