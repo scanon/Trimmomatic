@@ -63,7 +63,8 @@ This sample module contains one small method - count_contigs.
 
         TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33'
         TrimmomaticParams = 'ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
-    
+
+        report = ""    
 
         try:
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 
@@ -75,24 +76,36 @@ This sample module contains one small method - count_contigs.
             forward_reads = pairedEndReadLibrary['data']['lib1']['file']
         elif 'handle_1' in pairedEndReadLibrary['data']:
             forward_reads = pairedEndReadLibrary['data']['handle_1']
-
         if 'lib2' in pairedEndReadLibrary['data']:
             reverse_reads = pairedEndReadLibrary['data']['lib2']['file']
         elif 'handle_2' in pairedEndReadLibrary['data']:
             reverse_reads = pairedEndReadLibrary['data']['handle_2']
 
         forward_reads_file = open(forward_reads['file_name'], 'w', 0)
-
-
-        r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-        for chunk in r.iter_content(1024):
-            forward_reads_file.write(chunk)
-
         reverse_reads_file = open(reverse_reads['file_name'], 'w', 0)
 
-        r = requests.get(reverse_reads['url']+'/node/'+reverse_reads['id']+'?download', stream=True, headers=headers)
-        for chunk in r.iter_content(1024):
-            reverse_reads_file.write(chunk)
+        if pairedEndReadLibrary['data']['interleaved']:
+            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
+            for chunk in r.iter_content(1024):
+                forward_reads_file.write(chunk)
+
+            if re.search('gz', forward_reads['file_name'], re.I):
+                cmdstring = 'zcat ' + forward_reads['file_name']
+            else:    
+                cmdstring = 'cat ' + forward_reads['file_name'] 
+
+            cmdstring += ' |paste - - - - - - - - |tee >(cut -f 1-4 | tr "\t" "\n" > forward.fastq) | cut -f 5-8 | tr "\t" "\n" > reverse.fastq'
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            stdout, stderr = cmdProcess.communicate()
+            report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+        else:
+            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
+            for chunk in r.iter_content(1024):
+                forward_reads_file.write(chunk)
+
+            r = requests.get(reverse_reads['url']+'/node/'+reverse_reads['id']+'?download', stream=True, headers=headers)
+            for chunk in r.iter_content(1024):
+                reverse_reads_file.write(chunk)
 
         s = " "
         cmdstring = s.join( (TrimmomaticCmd, 
@@ -104,7 +117,6 @@ This sample module contains one small method - count_contigs.
                             'reverse_unpaired_' +reverse_reads['file_name'],
                             TrimmomaticParams) )
 
-        #cmdstring2 = "wc -l " + forward_reads['file_name']
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
