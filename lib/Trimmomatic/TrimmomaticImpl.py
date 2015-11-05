@@ -82,13 +82,11 @@ This sample module contains one small method - count_contigs.
             reverse_reads = pairedEndReadLibrary['data']['handle_2']
 
         forward_reads_file = open(forward_reads['file_name'], 'w', 0)
-
+        r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
+        for chunk in r.iter_content(1024):
+            forward_reads_file.write(chunk)
 
         if 'interleaved' in pairedEndReadLibrary['data'] and pairedEndReadLibrary['data']['interleaved']:
-            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-            for chunk in r.iter_content(1024):
-                forward_reads_file.write(chunk)
-
             if re.search('gz', forward_reads['file_name'], re.I):
                 cmdstring = 'zcat ' + forward_reads['file_name']
             else:    
@@ -100,10 +98,6 @@ This sample module contains one small method - count_contigs.
             report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
         else:
             reverse_reads_file = open(reverse_reads['file_name'], 'w', 0)
-            r = requests.get(forward_reads['url']+'/node/'+forward_reads['id']+'?download', stream=True, headers=headers)
-            for chunk in r.iter_content(1024):
-                forward_reads_file.write(chunk)
-
             r = requests.get(reverse_reads['url']+'/node/'+reverse_reads['id']+'?download', stream=True, headers=headers)
             for chunk in r.iter_content(1024):
                 reverse_reads_file.write(chunk)
