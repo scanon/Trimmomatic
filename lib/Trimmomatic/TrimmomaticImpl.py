@@ -88,9 +88,9 @@ This sample module contains one small method - count_contigs.
 
         if 'interleaved' in pairedEndReadLibrary['data'] and pairedEndReadLibrary['data']['interleaved']:
             if re.search('gz', forward_reads['file_name'], re.I):
-                cmdstring = 'zcat ' + forward_reads['file_name']
+                cmdstring = '/bin/bash zcat ' + forward_reads['file_name']
             else:    
-                cmdstring = 'cat ' + forward_reads['file_name'] 
+                cmdstring = '/bin/bash cat ' + forward_reads['file_name'] 
 
             cmdstring += ' |paste - - - - - - - - |tee >(cut -f 1-4 | tr "\t" "\n" > forward.fastq) | cut -f 5-8 | tr "\t" "\n" > reverse.fastq'
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
