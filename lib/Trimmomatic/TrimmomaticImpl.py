@@ -123,7 +123,7 @@ This sample module contains one small method - count_contigs.
         cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
         stdout, stderr = cmdProcess.communicate()
-        report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr " + stderr
+        report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr " + stderr
 
 
         #END runTrimmomatic
