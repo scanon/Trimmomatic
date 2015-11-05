@@ -11,7 +11,7 @@ RUN \
   cd /kb/dev_container/modules/jars && \
   make deploy && \
   cd /kb/dev_container/modules/kb_sdk && \
-  make
+  make && make deploy
 
 
 # -----------------------------------------
