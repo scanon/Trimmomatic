@@ -4,7 +4,7 @@ MAINTAINER KBase Developer
 RUN \
   . /kb/dev_container/user-env.sh && \
   cd /kb/dev_container/modules && \
-  rm -rf jars && \
+  rm -rf jars && \ 
   git clone https://github.com/kbase/jars && \
   rm -rf kb_sdk && \
   git clone https://github.com/kbase/kb_sdk -b develop && \

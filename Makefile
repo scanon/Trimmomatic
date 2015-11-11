@@ -18,7 +18,7 @@ default: compile-kb-module build-startup-script build-executable-script
 .PHONY: test
 
 compile-kb-module:
-	kb-mobu compile $(SPEC_FILE) \
+	kb-sdk compile $(SPEC_FILE) \
 		--out $(LIB_DIR) \
 		--plclname $(SERVICE_CAPS)::$(SERVICE_CAPS)Client \
 		--jsclname javascript/Client \

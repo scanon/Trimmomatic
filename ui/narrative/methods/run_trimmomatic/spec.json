@@ -22,6 +22,30 @@
 			"text_options": {
 				"valid_ws_types": ["KBaseFile.PairedEndLibrary", "KBaseAssembly.PairedEndLibrary"]
 			}
+		},
+		{
+			"id": "adapterFa",
+			"optional": false,
+			"advanced": false,
+			"allow_multiple": false,
+			"default_values": ["TrueSeq3-PE"],
+			"field_type": "dropdown",
+				"dropdown_options": {
+					"options": [
+						{
+							"value": "TrueSeq3-PE.fa",
+							"display": "TrueSeq3-PE",
+							"id": "TrueSeq3-PE",
+							"ui-name": "TrueSeq3-PE"
+						},
+						{
+							"value": "TrueSeq2-PE.fa",
+							"display": "TrueSeq2-PE",
+							"id": "TrueSeq2-PE",
+							"ui-name": "TrueSeq2-PE"
+						}
+					]
+				}
 		}
 	],
 	"behavior": {
@@ -37,6 +61,10 @@
 				{
 					"input_parameter": "input_paired_end_library",
 					"target_property": "input_paired_end_library"
+				},
+				{
+					"input_parameter": "adapterFa",
+					"target_property": "adapterFa"
 				}
 			],
 			"output_mapping": [

@@ -220,6 +220,7 @@ TrimmomaticInput is a reference to a hash where the following keys are defined:
 	input_ws has a value which is a Trimmomatic.workspace_name
 	output_ws has a value which is a Trimmomatic.workspace_name
 	input_paired_end_library has a value which is a string
+	adapterFa has a value which is a string
 	output_paired_end_library has a value which is a string
 	output_unpaired_forward has a value which is a string
 	output_unpaired_reverse has a value which is a string
@@ -237,6 +238,7 @@ TrimmomaticInput is a reference to a hash where the following keys are defined:
 	input_ws has a value which is a Trimmomatic.workspace_name
 	output_ws has a value which is a Trimmomatic.workspace_name
 	input_paired_end_library has a value which is a string
+	adapterFa has a value which is a string
 	output_paired_end_library has a value which is a string
 	output_unpaired_forward has a value which is a string
 	output_unpaired_reverse has a value which is a string
@@ -469,6 +471,7 @@ a reference to a hash where the following keys are defined:
 input_ws has a value which is a Trimmomatic.workspace_name
 output_ws has a value which is a Trimmomatic.workspace_name
 input_paired_end_library has a value which is a string
+adapterFa has a value which is a string
 output_paired_end_library has a value which is a string
 output_unpaired_forward has a value which is a string
 output_unpaired_reverse has a value which is a string
@@ -483,6 +486,7 @@ a reference to a hash where the following keys are defined:
 input_ws has a value which is a Trimmomatic.workspace_name
 output_ws has a value which is a Trimmomatic.workspace_name
 input_paired_end_library has a value which is a string
+adapterFa has a value which is a string
 output_paired_end_library has a value which is a string
 output_unpaired_forward has a value which is a string
 output_unpaired_reverse has a value which is a string

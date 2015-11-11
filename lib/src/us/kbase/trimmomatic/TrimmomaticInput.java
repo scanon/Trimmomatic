@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "input_ws",
     "output_ws",
     "input_paired_end_library",
+    "adapterFa",
     "output_paired_end_library",
     "output_unpaired_forward",
     "output_unpaired_reverse"
@@ -36,6 +37,8 @@ public class TrimmomaticInput {
     private String outputWs;
     @JsonProperty("input_paired_end_library")
     private String inputPairedEndLibrary;
+    @JsonProperty("adapterFa")
+    private String adapterFa;
     @JsonProperty("output_paired_end_library")
     private String outputPairedEndLibrary;
     @JsonProperty("output_unpaired_forward")
@@ -86,6 +89,21 @@ public class TrimmomaticInput {
 
     public TrimmomaticInput withInputPairedEndLibrary(String inputPairedEndLibrary) {
         this.inputPairedEndLibrary = inputPairedEndLibrary;
+        return this;
+    }
+
+    @JsonProperty("adapterFa")
+    public String getAdapterFa() {
+        return adapterFa;
+    }
+
+    @JsonProperty("adapterFa")
+    public void setAdapterFa(String adapterFa) {
+        this.adapterFa = adapterFa;
+    }
+
+    public TrimmomaticInput withAdapterFa(String adapterFa) {
+        this.adapterFa = adapterFa;
         return this;
     }
 
@@ -146,7 +164,7 @@ public class TrimmomaticInput {
 
     @Override
     public String toString() {
-        return ((((((((((((((("TrimmomaticInput"+" [inputWs=")+ inputWs)+", outputWs=")+ outputWs)+", inputPairedEndLibrary=")+ inputPairedEndLibrary)+", outputPairedEndLibrary=")+ outputPairedEndLibrary)+", outputUnpairedForward=")+ outputUnpairedForward)+", outputUnpairedReverse=")+ outputUnpairedReverse)+", additionalProperties=")+ additionalProperties)+"]");
+        return ((((((((((((((((("TrimmomaticInput"+" [inputWs=")+ inputWs)+", outputWs=")+ outputWs)+", inputPairedEndLibrary=")+ inputPairedEndLibrary)+", adapterFa=")+ adapterFa)+", outputPairedEndLibrary=")+ outputPairedEndLibrary)+", outputUnpairedForward=")+ outputUnpairedForward)+", outputUnpairedReverse=")+ outputUnpairedReverse)+", additionalProperties=")+ additionalProperties)+"]");
     }
 
 }

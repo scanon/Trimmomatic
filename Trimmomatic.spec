@@ -32,6 +32,7 @@ module Trimmomatic {
 		workspace_name input_ws;
 		workspace_name output_ws;
 		string input_paired_end_library;
+		string adapterFa;
 		string output_paired_end_library;
 		string output_unpaired_forward;
 		string output_unpaired_reverse;

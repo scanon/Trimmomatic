@@ -91,20 +91,18 @@ This sample module contains one small method - count_contigs.
 
         if 'interleaved' in pairedEndReadLibrary['data'] and pairedEndReadLibrary['data']['interleaved']:
             if re.search('gz', forward_reads['file_name'], re.I):
-                bcmdstring = 'zcat ' + forward_reads['file_name']
+                bcmdstring = 'gunzip -c ' + forward_reads['file_name']
             else:    
                 bcmdstring = 'cat ' + forward_reads['file_name'] 
 
-            cmdstring = bcmdstring + ' |paste - - - - - - - - |cut -f 1-4 | tr "\t" "\n" > forward.fastq'
-            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            
+            cmdstring = bcmdstring + '| (paste - - - - - - - -  | tee >(cut -f 1-4 | tr "\t" "\n" > forward.fastq) | cut -f 5-8 | tr "\t" "\n" > reverse.fastq )'
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True, executable='/bin/bash')
             stdout, stderr = cmdProcess.communicate()
+
             # Check return status
             report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
-            cmdstring = bcmdstring + ' |paste - - - - - - - - |cut -f 5-8 | tr "\t" "\n" > reverse.fastq'
-            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
-            stdout, stderr = cmdProcess.communicate()
-            # Check return status
-            report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+            
             forward_reads['file_name']='forward.fastq'
             reverse_reads['file_name']='reverse.fastq'
         else:
