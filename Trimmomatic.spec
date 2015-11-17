@@ -36,7 +36,7 @@ module Trimmomatic {
 		int seed_mismatches;
 		int palindrom_clip_threshold;
 		int simple_clip_threshold;
-		string qualityEncoding;
+		string quality_encoding;
 		int slinding_window_size;
 		int slinding_window_required_quality;
 		int leading_min_quality;

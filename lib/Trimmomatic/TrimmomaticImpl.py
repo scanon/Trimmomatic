@@ -61,10 +61,14 @@ This sample module contains one small method - count_contigs.
         wsClient = workspaceService(self.workspaceURL, token=token)
         headers = {'Authorization': 'OAuth '+token}
 
-        TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE -phred33'
+        TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE'
         TrimmomaticParams = 'ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
 
         report = ""    
+
+
+        # set read quality encoding
+        TrimmomaticCmd = TrimmomaticCmd + " -" + input_params['quality_encoding']
 
         try:
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 

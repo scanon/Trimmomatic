@@ -89,6 +89,10 @@
 				{
 					"input_parameter": "adapterFa",
 					"target_property": "adapterFa"
+				},
+				{
+					"input_parameter": "encoding",
+					"target_property": "quality_encoding"
 				}
 			],
 			"output_mapping": [
