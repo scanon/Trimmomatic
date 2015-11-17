@@ -70,6 +70,9 @@ This sample module contains one small method - count_contigs.
         # set read quality encoding
         TrimmomaticCmd = TrimmomaticCmd + " -" + input_params['quality_encoding']
 
+        # set adapter trimming
+        #TrimmomaticParams = TrimmomaticParams + " " + "ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + 
+
         try:
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 
                                                             'workspace' : input_params['input_ws']}])[0]

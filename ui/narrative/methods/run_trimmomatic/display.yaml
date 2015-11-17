@@ -50,12 +50,18 @@ parameters :
     		The reference adapter sequences.
     seed_mismatches : 
     	ui-name : |
-    		Seed seed_mismatches
+    		Seed mismatches
     	short-hint : |
     		Maximum mismatch count which will still allow a full mismatch.
     	long-hint : |
     		Specifies the maximum mismatch count which will still allow a full match to be performed.
-
+    palindrome_clip_threshold : 
+    	ui-name : |
+    		Palindrom clip threshold
+    	short-hint : |
+    		Specifies how accurate the match between the two 'adapter ligated' reads must be for PE palindrome read alignment.
+    	long-hint : |
+    		Specifies how accurate the match between the two 'adapter ligated' reads must be for PE palindrome read alignment.
 
 description : |
 	<p>This is a quick Narrative Method for running Trimmomatic pairedend illumina read trimming.</p>
