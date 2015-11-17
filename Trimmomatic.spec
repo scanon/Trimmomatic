@@ -33,6 +33,17 @@ module Trimmomatic {
 		workspace_name output_ws;
 		string input_paired_end_library;
 		string adapterFa;
+		int seed_mismatches;
+		int palindrom_clip_threshold;
+		int simple_clip_threshold;
+		string qualityEncoding;
+		int slinding_window_size;
+		int slinding_window_required_quality;
+		int leading_min_quality;
+		int trailing_min_quality;
+		int crop_length;
+		int head_crop_length;
+		int min_length;
 		string output_paired_end_library;
 		string output_unpaired_forward;
 		string output_unpaired_reverse;

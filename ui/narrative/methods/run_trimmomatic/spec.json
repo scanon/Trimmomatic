@@ -46,6 +46,14 @@
 						}
 					]
 				}
+		},
+		{
+			"id": "encoding",
+			"optional": false,
+			"advanced": false,
+			"allow_multiple": false,
+			"default_values": [ "phred33" ],
+			"field_type": "text"
 		}
 	],
 	"behavior": {
