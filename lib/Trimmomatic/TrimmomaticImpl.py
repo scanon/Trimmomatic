@@ -71,11 +71,11 @@ This sample module contains one small method - count_contigs.
         TrimmomaticCmd = TrimmomaticCmd + " -" + input_params['quality_encoding']
 
         # set adapter trimming
-        TrimmomaticParams = "ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + input_params['adapterFa']
-                            + ":".join( (input_params['seed_mismatch'], 
+        TrimmomaticParams = "ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + input_params['adapterFa'] +
+                            ":".join( (input_params['seed_mismatch'], 
                                          input_params['palindrome_clip_threshold'],
-                                         input_params['simple_clip_threshold']) )
-                            + TrimmomaticParams
+                                         input_params['simple_clip_threshold']) ) +
+                            TrimmomaticParams
 
         try:
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 
