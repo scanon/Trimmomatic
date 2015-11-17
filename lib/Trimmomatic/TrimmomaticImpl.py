@@ -62,7 +62,7 @@ This sample module contains one small method - count_contigs.
         headers = {'Authorization': 'OAuth '+token}
 
         TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar PE'
-        TrimmomaticParams = 'ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
+        TrimmomaticParams = 'LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
 
         report = ""    
 
@@ -71,7 +71,11 @@ This sample module contains one small method - count_contigs.
         TrimmomaticCmd = TrimmomaticCmd + " -" + input_params['quality_encoding']
 
         # set adapter trimming
-        #TrimmomaticParams = TrimmomaticParams + " " + "ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + 
+        TrimmomaticParams = "ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + input_params['adapterFa']
+                            + ":".join(input_params['seed_mismatch'], 
+                                       input_params['palindrome_clip_threshold'],
+                                       input_params['simple_clip_threshold'])
+                            + TrimmomaticParams
 
         try:
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 
