@@ -62,6 +62,13 @@ parameters :
     		Specifies how accurate the match between the two 'adapter ligated' reads must be for PE palindrome read alignment.
     	long-hint : |
     		Specifies how accurate the match between the two 'adapter ligated' reads must be for PE palindrome read alignment.
+    simple_clip_threshold : 
+    	ui-name : |
+    		Simple clip threshold
+    	short-hint : |
+    		Specifies how accurate the match between any adapter etc. sequence must be against a read.
+    	long-hint : |
+    		Specifies how accurate the match between any adapter etc. sequence must be against a read.
 
 description : |
 	<p>This is a quick Narrative Method for running Trimmomatic pairedend illumina read trimming.</p>
