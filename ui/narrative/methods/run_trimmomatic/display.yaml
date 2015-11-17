@@ -41,6 +41,13 @@ parameters :
     		The reference sequences for trimming.
     	long-hint : |
     		The reference adapter sequences.
+    encoding :
+    	ui-name : |
+    		Quality encoding
+    	short-hint : |
+    		Read quality encoding format.
+    	long-hint : |
+    		Read quality encoding format.
 
 description : |
 	<p>This is a quick Narrative Method for running Trimmomatic pairedend illumina read trimming.</p>

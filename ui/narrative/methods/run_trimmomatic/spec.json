@@ -53,7 +53,23 @@
 			"advanced": false,
 			"allow_multiple": false,
 			"default_values": [ "phred33" ],
-			"field_type": "text"
+			"field_type": "dropdown",
+				"dropdown_options": {
+					"options": [
+						{
+							"value": "phred33",
+							"display": "phred33",
+							"id": "phred33",
+							"ui-name": "phred33"
+						},
+						{
+							"value": "phred64",
+							"display": "phred64",
+							"id": "phred64",
+							"ui-name": "phred64"
+						}
+					]
+				}
 		}
 	],
 	"behavior": {
