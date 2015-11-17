@@ -72,9 +72,9 @@ This sample module contains one small method - count_contigs.
 
         # set adapter trimming
         TrimmomaticParams = "ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + input_params['adapterFa']
-                            + ":".join(input_params['seed_mismatch'], 
-                                       input_params['palindrome_clip_threshold'],
-                                       input_params['simple_clip_threshold'])
+                            + ":".join( (input_params['seed_mismatch'], 
+                                         input_params['palindrome_clip_threshold'],
+                                         input_params['simple_clip_threshold']) )
                             + TrimmomaticParams
 
         try:
