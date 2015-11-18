@@ -34,13 +34,13 @@ parameters :
 			Library type, paired end or single end sequencing
 		long-hint : |
 			Library type, paired end or single end sequencing
-    input_read_library :
-        ui-name : |
-            Read Library Object
-        short-hint : |
-            The read set to examine
-        long-hint  : |
-            The read set for which you want to trim.
+	input_read_library :
+		ui-name : |
+			Read Library Object
+		short-hint : |
+			The read set to examine
+		long-hint  : |
+			The read set for which you want to trim.
     encoding :
     	ui-name : |
     		Quality encoding
