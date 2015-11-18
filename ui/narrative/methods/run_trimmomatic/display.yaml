@@ -57,7 +57,7 @@ parameters :
     		Specifies the maximum mismatch count which will still allow a full match to be performed.
     palindrome_clip_threshold : 
     	ui-name : |
-    		Palindrom clip threshold
+    		Palindrome clip threshold
     	short-hint : |
     		Specifies how accurate the match between the two 'adapter ligated' reads must be for PE palindrome read alignment.
     	long-hint : |
