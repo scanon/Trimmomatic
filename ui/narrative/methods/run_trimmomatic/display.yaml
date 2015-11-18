@@ -76,7 +76,7 @@ parameters :
     		The number of bases to keep, from the start of the read.
     	long-hint : |
     		Removes bases regardless of quality from the end of the read, so that the read has maximally the specified length after this step has been performed. Steps performed after CROP might of course further shorten the read.
-	head_crop_length :
+    head_crop_length :
 		ui-name : |
 			Head Crop length
 		short-hint : |
