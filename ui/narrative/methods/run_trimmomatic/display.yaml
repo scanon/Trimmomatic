@@ -83,13 +83,13 @@ parameters :
     		The number of bases to remove from the start of the read.
     	long-hint : |
     		Removes the specified number of bases, regardless of quality, from the beginning of the read.
-	leading_min_quality :
-		ui-name : |
-			Leading minimum quality
-		short-hint : |
-			 Specifies the minimum quality required to keep a base at start of read.
-		long-hint : |
-			Remove low quality bases from the beginning. As long as a base has a value below this threshold the base is removed and the next base will be investigated.
+    leading_min_quality :
+    	ui-name : |
+    		Leading minimum quality
+    	short-hint : |
+    		Specifies the minimum quality required to keep a base at start of read.
+    	long-hint : |
+    		Remove low quality bases from the beginning. As long as a base has a value below this threshold the base is removed and the next base will be investigated.
 	trailing_min_quality :
 		ui-name : |
 			Trailing minimum quality
