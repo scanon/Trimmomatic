@@ -79,10 +79,10 @@ parameters :
     head_crop_length :
     	ui-name : |
     		Head Crop length
-		short-hint : |
-			The number of bases to remove from the start of the read.
-		long-hint : |
-			Removes the specified number of bases, regardless of quality, from the beginning of the read.
+    	short-hint : |
+    		The number of bases to remove from the start of the read.
+    	long-hint : |
+    		Removes the specified number of bases, regardless of quality, from the beginning of the read.
 	leading_min_quality :
 		ui-name : |
 			Leading minimum quality
