@@ -41,13 +41,13 @@ parameters :
 			The read set to examine
 		long-hint  : |
 			The read set for which you want to trim.
-    encoding :
-    	ui-name : |
-    		Quality encoding
-    	short-hint : |
-    		Read quality encoding format.
-    	long-hint : |
-    		Read quality encoding format.
+	encoding :
+		ui-name : |
+			Quality encoding
+		short-hint : |
+			Read quality encoding format.
+		long-hint : |
+			Read quality encoding format.
     adapterFa :
     	ui-name : |
     		Adapters
