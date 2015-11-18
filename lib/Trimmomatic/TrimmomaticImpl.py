@@ -71,11 +71,34 @@ This sample module contains one small method - count_contigs.
         TrimmomaticCmd = TrimmomaticCmd + " -" + input_params['quality_encoding']
 
         # set adapter trimming
-        TrimmomaticParams = "ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + input_params['adapterFa'] +
-                            ":".join( (input_params['seed_mismatch'], 
-                                         input_params['palindrome_clip_threshold'],
-                                         input_params['simple_clip_threshold']) ) +
-                            TrimmomaticParams
+        ILLUMINACLIP = ("ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + 
+                            ":".join( (input_params['adapterFa'],
+                                       input_params['seed_mismatch'], 
+                                       input_params['palindrome_clip_threshold'],
+                                       input_params['simple_clip_threshold']) ) + 
+                            " " +
+                            TrimmomaticParams)
+
+        # set Crop
+        CROP = 'CROP:' + input_params['crop_length']
+
+        # set Headcrop
+        HEADCROP = 'HEADCROP:' + input_params['head_crop_length']
+
+        # set Leading
+        LEADING = 'LEADING:' + input_params['leading_min_quality']
+
+        # set Trailing
+        TRAILING = 'TRAILING:' + input_params['trailing_min_quality']
+
+        # set sliding window
+        SLIDINGWINDOW = 'SLIDINGWINDOW:' + input_params['sliding_window_size'] + ":" + input_params['sliding_window_min_quality']
+
+        # set min length
+        MINLEN = 'MINLEN:' + input_params['min_length']
+
+        # set params
+        TrimmomaticParams = " ".join( (ILLUMINACLIP, CROP, HEADCROP, LEADING, TRAILING, SLIDINGWINDOW, MINLEN) )
 
         try:
             pairedEndReadLibrary = wsClient.get_objects([{'name': input_params['input_paired_end_library'], 

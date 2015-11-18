@@ -38,7 +38,7 @@ module Trimmomatic {
 		int simple_clip_threshold;
 		string quality_encoding;
 		int slinding_window_size;
-		int slinding_window_required_quality;
+		int sliding_window_min_quality;
 		int leading_min_quality;
 		int trailing_min_quality;
 		int crop_length;
