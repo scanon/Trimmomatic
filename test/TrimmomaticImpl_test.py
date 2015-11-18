@@ -19,7 +19,8 @@ class TrimmoaticTest(unittest.TestCase):
         ctx={'token':self.token}
         input_params={}
         input_params['input_ws']='psdehal:1446073144048'
-        input_params['input_paired_end_library']='rhodo.art.q20.int.PE.reads'
+        input_params['read_type']='PE'
+        input_params['input_read_library']='rhodo.art.q20.int.PE.reads'
         input_params['quality_encoding']='phred33'
         input_params['adapterFa']='TruSeq3-PE.fa'
         input_params['seed_mismatches']='2'
@@ -35,11 +36,13 @@ class TrimmoaticTest(unittest.TestCase):
 	result=self.cc.runTrimmomatic(ctx, input_params)
         print result
         assert result[0].find('Completed successfully')>=0
-        input_params['input_paired_end_library']='rhodo.art.jgi.reads'
+        input_params['input_read_library']='rhodo.art.jgi.reads'
 	result=self.cc.runTrimmomatic(ctx, input_params)
         print result
         assert result[0].find('Completed successfully')>=0
-    #    input_params['input_paired_end_library']='gw460_reads'
-	#result=self.cc.runTrimmomatic(ctx, input_params)
-    #    print result
-    #    assert result[0].find('Completed successfully')>=0
+        input_params['input_read_library']='rhodo.art.q50.SE.reads'
+        input_params['read_type']='SE'
+        input_params['adapterFa']='TruSeq3-SE.fa'
+	result=self.cc.runTrimmomatic(ctx, input_params)
+        print result
+        assert result[0].find('Completed successfully')>=0

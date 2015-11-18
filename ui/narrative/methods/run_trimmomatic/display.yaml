@@ -27,9 +27,16 @@ suggestions:
 # Configure the display and description of parameters
 #
 parameters :
-    input_paired_end_library :
+	read_type :
+		ui-name : |
+			Read Library Type
+		short-hint : |
+			Library type, paired end or single end sequencing
+		long-hint : |
+			Library type, paired end or single end sequencing
+    input_read_library :
         ui-name : |
-            Pairedend Library Object
+            Read Library Object
         short-hint : |
             The read set to examine
         long-hint  : |

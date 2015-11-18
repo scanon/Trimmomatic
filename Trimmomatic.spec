@@ -31,7 +31,8 @@ module Trimmomatic {
 	typedef structure {
 		workspace_name input_ws;
 		workspace_name output_ws;
-		string input_paired_end_library;
+		string read_type;
+		string input_read_library;
 		string adapterFa;
 		int seed_mismatches;
 		int palindrom_clip_threshold;
