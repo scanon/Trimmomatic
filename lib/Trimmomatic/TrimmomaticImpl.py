@@ -191,7 +191,7 @@ This sample module contains one small method - count_contigs.
         else:
             if 'handle' in readLibrary['data']:
                 reads_file = open(readLibrary['data']['handle']['file_name'], 'w', 0)
-                r = requests.get(readLibrary['data']['handle']['url']+'/node/'+readLibrary['data']['handle']['id']+'download', stream=True, headers=headers)
+                r = requests.get(readLibrary['data']['handle']['url']+'/node/'+readLibrary['data']['handle']['id']+'?download', stream=True, headers=headers)
                 for chunk in r.iter_content(1024):
                     reads_file.write(chunk)
 

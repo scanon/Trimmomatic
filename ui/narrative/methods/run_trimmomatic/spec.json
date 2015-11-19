@@ -48,7 +48,7 @@
 			}
 		},
 		{
-			"id": "encoding",
+			"id": "quality_encoding",
 			"optional": false,
 			"advanced": false,
 			"allow_multiple": false,
@@ -249,7 +249,7 @@
 					"target_property": "input_read_library"
 				},
 				{
-					"input_parameter": "encoding",
+					"input_parameter": "quality_encoding",
 					"target_property": "quality_encoding"
 				},
 				{

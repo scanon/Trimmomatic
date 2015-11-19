@@ -41,7 +41,7 @@ parameters :
 			The read set to examine
 		long-hint  : |
 			The read set for which you want to trim.
-	encoding :
+	quality_encoding :
 		ui-name : |
 			Quality encoding
 		short-hint : |
