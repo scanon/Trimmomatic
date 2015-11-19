@@ -36,6 +36,10 @@ class TrimmoaticTest(unittest.TestCase):
 	result=self.cc.runTrimmomatic(ctx, input_params)
         print result
         assert result[0].find('Completed successfully')>=0
+        
+        result=self.cc.runTrimmomatic(ctx, input_params)
+        print result
+        assert result[0].find('Completed successfully')>=0
         input_params['input_read_library']='rhodo.art.jgi.reads'
 	result=self.cc.runTrimmomatic(ctx, input_params)
         print result

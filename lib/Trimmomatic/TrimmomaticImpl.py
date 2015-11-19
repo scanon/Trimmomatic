@@ -77,55 +77,57 @@ This sample module contains one small method - count_contigs.
         TrimmomaticCmd = TrimmomaticCmd + " -" + input_params['quality_encoding']
 
         # set adapter trimming
-        if 'adapterFa' in input_params:
-            ILLUMINACLIP = ("ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + 
-                            ":".join( (input_params['adapterFa'],
+        if ('adapterFa' in input_params and
+            'seed_mismatches' in input_params and
+            'palindrome_clip_threshold' in input_params and
+            'simple_clip_threshold' in input_params):
+            TrimmomaticParams = ("ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + 
+                                    ":".join( (input_params['adapterFa'],
                                        input_params['seed_mismatches'], 
                                        input_params['palindrome_clip_threshold'],
-                                       input_params['simple_clip_threshold']) ) + 
-                            " " +
-                            TrimmomaticParams)
-        else:
-            ILLUMINACLIP = ""
+                                       input_params['simple_clip_threshold']) ) + " " )
+        elif ('adapterFa' in input_params or
+            'seed_mismatches' in input_params or
+            'palindrome_clip_threshold' in input_params or
+            'simple_clip_threshold' in input_params):
+            print 'Adapter Cliping requires Adapter, Seed Mismatches, Palindrome Clip Threshold and Simple Clip Threshold'
+            raise
+
 
         # set Crop
         if 'crop_length' in input_params:
-            CROP = 'CROP:' + input_params['crop_length']
-        else:
-            CROP = ""
+            TrimmomaticParams += 'CROP:' + input_params['crop_length'] + ' '
 
         # set Headcrop
         if 'head_crop_length' in input_params:
-            HEADCROP = 'HEADCROP:' + input_params['head_crop_length']
-        else:
-            HEADCROP = ""
+            TrimmomaticParams += 'HEADCROP:' + input_params['head_crop_length'] + ' '
+
 
         # set Leading
         if 'leading_min_quality' in input_params:
-            LEADING = 'LEADING:' + input_params['leading_min_quality']
-        else:
-            LEADING = ""
+            TrimmomaticParams += 'LEADING:' + input_params['leading_min_quality'] + ' '
+
 
         # set Trailing
         if 'trailing_min_quality' in input_params:
-            TRAILING = 'TRAILING:' + input_params['trailing_min_quality']
-        else:
-            TRAILING = ""
+            TrimmomaticParams += 'TRAILING:' + input_params['trailing_min_quality'] + ' '
+
 
         # set sliding window
         if 'sliding_window_size' in input_params and 'sliding_window_min_quality' in input_params:
-            SLIDINGWINDOW = 'SLIDINGWINDOW:' + input_params['sliding_window_size'] + ":" + input_params['sliding_window_min_quality']
-        else:
-            SLIDINGWINDOW = ""
+            TrimmomaticParams += 'SLIDINGWINDOW:' + input_params['sliding_window_size'] + ":" + input_params['sliding_window_min_quality'] + ' '
+        elif 'sliding_window_size' in input_params or 'sliding_window_min_quality' in input_params:
+            print 'Sliding Window filtering requires both Window Size and Window Minimum Quality to be set'
+            raise
+
 
         # set min length
         if 'min_length' in input_params:
-            MINLEN = 'MINLEN:' + input_params['min_length']
-        else:
-            MINLEN = ""
+            TrimmomaticParams += 'MINLEN:' + input_params['min_length'] + ' '
 
-        # set params
-        TrimmomaticParams = " ".join( (ILLUMINACLIP, CROP, HEADCROP, LEADING, TRAILING, SLIDINGWINDOW, MINLEN) )
+        if TrimmomaticParams == '':
+            print 'No filtering/trimming steps specified!'
+            raise
 
 
         try:
