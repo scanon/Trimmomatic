@@ -15,7 +15,6 @@ class Trimmomatic:
 
     Module Description:
     A KBase module: Trimmomatic
-This sample module contains one small method - count_contigs.
     '''
 
     ######## WARNING FOR GEVENT USERS #######
@@ -26,6 +25,77 @@ This sample module contains one small method - count_contigs.
     #########################################
     #BEGIN_CLASS_HEADER
     workspaceURL = None
+    TRIMMOMATIC = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar'
+    ADAPTER_DIR = '/kb/module/Trimmomatic-0.33/adapters/'
+
+    def parse_trimmomatic_steps(self, input_params):
+        # validate input parameters and return string defining trimmomatic steps
+
+        parameter_string = ''
+
+        if 'read_type' not in input_params:
+            raise ValueError('read_type not defined')
+        elif input_params['read_type'] not in ('PE', 'SE'):
+            raise ValueError('read_type must be PE or SE')
+
+        if 'quality_encoding' not in input_params:
+            raise ValueError('quality_encoding not defined')
+        elif input_params['quality_encoding'] not in ('phred33', 'phred64'):
+            raise ValueError('quality_encoding must be phred33 or phred64')
+
+        # set adapter trimming
+        if ('adapterFa' in input_params and
+            'seed_mismatches' in input_params and
+            'palindrome_clip_threshold' in input_params and
+            'simple_clip_threshold' in input_params):
+            parameter_string = ("ILLUMINACLIP:" + self.ADAPTER_DIR +
+                                    ":".join( (input_params['adapterFa'],
+                                       input_params['seed_mismatches'], 
+                                       input_params['palindrome_clip_threshold'],
+                                       input_params['simple_clip_threshold']) ) + " " )
+        elif ('adapterFa' in input_params or
+            'seed_mismatches' in input_params or
+            'palindrome_clip_threshold' in input_params or
+            'simple_clip_threshold' in input_params):
+            raise ValueError('Adapter Cliping requires Adapter, Seed Mismatches, Palindrome Clip Threshold and Simple Clip Threshold')
+
+
+        # set Crop
+        if 'crop_length' in input_params:
+            parameter_string += 'CROP:' + input_params['crop_length'] + ' '
+
+        # set Headcrop
+        if 'head_crop_length' in input_params:
+            parameter_string += 'HEADCROP:' + input_params['head_crop_length'] + ' '
+
+
+        # set Leading
+        if 'leading_min_quality' in input_params:
+            parameter_string += 'LEADING:' + input_params['leading_min_quality'] + ' '
+
+
+        # set Trailing
+        if 'trailing_min_quality' in input_params:
+            parameter_string += 'TRAILING:' + input_params['trailing_min_quality'] + ' '
+
+
+        # set sliding window
+        if 'sliding_window_size' in input_params and 'sliding_window_min_quality' in input_params:
+            parameter_string += 'SLIDINGWINDOW:' + input_params['sliding_window_size'] + ":" + input_params['sliding_window_min_quality'] + ' '
+        elif 'sliding_window_size' in input_params or 'sliding_window_min_quality' in input_params:
+            raise ValueError('Sliding Window filtering requires both Window Size and Window Minimum Quality to be set')
+            
+
+        # set min length
+        if 'min_length' in input_params:
+            parameter_string += 'MINLEN:' + input_params['min_length'] + ' '
+
+        if parameter_string == '':
+            raise ValueError('No filtering/trimming steps specified!')
+
+        return parameter_string
+
+
     #END_CLASS_HEADER
 
     # config contains contents of config file in a hash or None if it couldn't
@@ -53,6 +123,7 @@ This sample module contains one small method - count_contigs.
         # return the results
         return [returnVal]
 
+
     def runTrimmomatic(self, ctx, input_params):
         # ctx is the context object
         # return variables are: report
@@ -61,81 +132,17 @@ This sample module contains one small method - count_contigs.
         wsClient = workspaceService(self.workspaceURL, token=token)
         headers = {'Authorization': 'OAuth '+token}
 
-        TrimmomaticCmd = 'java -jar /kb/module/Trimmomatic-0.33/trimmomatic-0.33.jar '
-        TrimmomaticParams = ''
+        trimmomatic_params  = self.parse_trimmomatic_steps(input_params)
+        trimmomatic_options = input_params['read_type'] + ' -' + input_params['quality_encoding']
 
-        report = ""    
-
-        # set read type
-        if 'read_type' in input_params:
-            TrimmomaticCmd += input_params['read_type']
-        else:
-            print 'read type not defined'
-            raise
-
-        # set read quality encoding
-        TrimmomaticCmd = TrimmomaticCmd + " -" + input_params['quality_encoding']
-
-        # set adapter trimming
-        if ('adapterFa' in input_params and
-            'seed_mismatches' in input_params and
-            'palindrome_clip_threshold' in input_params and
-            'simple_clip_threshold' in input_params):
-            TrimmomaticParams = ("ILLUMINACLIP:/kb/module/Trimmomatic-0.33/adapters/" + 
-                                    ":".join( (input_params['adapterFa'],
-                                       input_params['seed_mismatches'], 
-                                       input_params['palindrome_clip_threshold'],
-                                       input_params['simple_clip_threshold']) ) + " " )
-        elif ('adapterFa' in input_params or
-            'seed_mismatches' in input_params or
-            'palindrome_clip_threshold' in input_params or
-            'simple_clip_threshold' in input_params):
-            print 'Adapter Cliping requires Adapter, Seed Mismatches, Palindrome Clip Threshold and Simple Clip Threshold'
-            raise
-
-
-        # set Crop
-        if 'crop_length' in input_params:
-            TrimmomaticParams += 'CROP:' + input_params['crop_length'] + ' '
-
-        # set Headcrop
-        if 'head_crop_length' in input_params:
-            TrimmomaticParams += 'HEADCROP:' + input_params['head_crop_length'] + ' '
-
-
-        # set Leading
-        if 'leading_min_quality' in input_params:
-            TrimmomaticParams += 'LEADING:' + input_params['leading_min_quality'] + ' '
-
-
-        # set Trailing
-        if 'trailing_min_quality' in input_params:
-            TrimmomaticParams += 'TRAILING:' + input_params['trailing_min_quality'] + ' '
-
-
-        # set sliding window
-        if 'sliding_window_size' in input_params and 'sliding_window_min_quality' in input_params:
-            TrimmomaticParams += 'SLIDINGWINDOW:' + input_params['sliding_window_size'] + ":" + input_params['sliding_window_min_quality'] + ' '
-        elif 'sliding_window_size' in input_params or 'sliding_window_min_quality' in input_params:
-            print 'Sliding Window filtering requires both Window Size and Window Minimum Quality to be set'
-            raise
-
-
-        # set min length
-        if 'min_length' in input_params:
-            TrimmomaticParams += 'MINLEN:' + input_params['min_length'] + ' '
-
-        if TrimmomaticParams == '':
-            print 'No filtering/trimming steps specified!'
-            raise
+        report = ''
 
 
         try:
             readLibrary = wsClient.get_objects([{'name': input_params['input_read_library'], 
                                                             'workspace' : input_params['input_ws']}])[0]
-        except:
-            print "get objects failed"
-            raise
+        except Exception as e:
+            raise ValueError('Unable to fet read library object from workspace: ' + str(e))
 
 
         if input_params['read_type'] == 'PE':
@@ -177,14 +184,14 @@ This sample module contains one small method - count_contigs.
                 for chunk in r.iter_content(1024):
                     reverse_reads_file.write(chunk)
 
-            cmdstring = " ".join( (TrimmomaticCmd, 
+            cmdstring = " ".join( (self.TRIMMOMATIC, trimmomatic_options, 
                             forward_reads['file_name'], 
                             reverse_reads['file_name'],
                             'forward_paired_'   +forward_reads['file_name'],
                             'forward_unpaired_' +forward_reads['file_name'],
                             'reverse_paired_'   +reverse_reads['file_name'],
                             'reverse_unpaired_' +reverse_reads['file_name'],
-                            TrimmomaticParams) )
+                            trimmomatic_params) )
 
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
 
@@ -197,10 +204,10 @@ This sample module contains one small method - count_contigs.
                 for chunk in r.iter_content(1024):
                     reads_file.write(chunk)
 
-            cmdstring = " ".join( (TrimmomaticCmd,
+            cmdstring = " ".join( (self.TRIMMOMATIC, trimmomatic_options,
                             readLibrary['data']['handle']['file_name'],
                             'trimmed_' + readLibrary['data']['handle']['file_name'],
-                            TrimmomaticParams) )
+                            trimmomatic_params) )
 
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             stdout, stderr = cmdProcess.communicate()

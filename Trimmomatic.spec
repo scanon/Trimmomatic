@@ -1,6 +1,7 @@
 /*
 A KBase module: Trimmomatic
-This sample module contains one small method - count_contigs.
+This module wraps the Trimmomatic tool
+http://www.usadellab.org/cms/index.php?page=trimmomatic
 */
 
 module Trimmomatic {
