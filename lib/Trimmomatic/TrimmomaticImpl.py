@@ -33,7 +33,7 @@ class Trimmomatic:
 
         parameter_string = ''
 
-        if 'read_type' not in input_params and input_params['read_type'] in not None:
+        if 'read_type' not in input_params and input_params['read_type'] is not None:
             raise ValueError('read_type not defined')
         elif input_params['read_type'] not in ('PE', 'SE'):
             raise ValueError('read_type must be PE or SE')
@@ -47,7 +47,7 @@ class Trimmomatic:
         if ('adapterFa' in input_params and input_params['adapterFa'] is not None and
             'seed_mismatches' in input_params and input_params['seed_mismatches'] is not None and
             'palindrome_clip_threshold' in input_params and input_params['quality_encoding'] is not None and
-            'simple_clip_threshold' in input_params) and input_params['simple_clip_threshold'] is not None:
+            'simple_clip_threshold' in input_params and input_params['simple_clip_threshold'] is not None):
             parameter_string = ("ILLUMINACLIP:" + self.ADAPTER_DIR +
                                     ":".join( (input_params['adapterFa'],
                                        input_params['seed_mismatches'], 
@@ -56,7 +56,7 @@ class Trimmomatic:
         elif ( ('adapterFa' in input_params and input_params['adapterFa'] is not None) or
                ('seed_mismatches' in input_params and input_params['seed_mismatches'] is not None) or
                ('palindrome_clip_threshold' in input_params and input_params['palindrome_clip_threshold'] is not None) or
-               ('simple_clip_threshold' in input_params input_params['simple_clip_threshold'] is not None) ):
+               ('simple_clip_threshold' in input_params and input_params['simple_clip_threshold'] is not None) ):
             raise ValueError('Adapter Cliping requires Adapter, Seed Mismatches, Palindrome Clip Threshold and Simple Clip Threshold')
 
 
@@ -80,8 +80,8 @@ class Trimmomatic:
 
 
         # set sliding window
-        if 'sliding_window_size' in input_params and input_params['sliding_window_size'] is not None and 
-            'sliding_window_min_quality' in input_params and input_params['sliding_window_min_quality'] is not None:
+        if ('sliding_window_size' in input_params and input_params['sliding_window_size'] is not None and 
+            'sliding_window_min_quality' in input_params and input_params['sliding_window_min_quality'] is not None):
             parameter_string += 'SLIDINGWINDOW:' + input_params['sliding_window_size'] + ":" + input_params['sliding_window_min_quality'] + ' '
         elif ( ('sliding_window_size' in input_params and input_params['sliding_window_size'] is not None) or 
                ('sliding_window_min_quality' in input_params and input_params['sliding_window_min_quality'] is not None) ):
