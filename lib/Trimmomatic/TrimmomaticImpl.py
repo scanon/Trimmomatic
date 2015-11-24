@@ -33,61 +33,63 @@ class Trimmomatic:
 
         parameter_string = ''
 
-        if 'read_type' not in input_params:
+        if 'read_type' not in input_params and input_params['read_type'] in not None:
             raise ValueError('read_type not defined')
         elif input_params['read_type'] not in ('PE', 'SE'):
             raise ValueError('read_type must be PE or SE')
 
-        if 'quality_encoding' not in input_params:
+        if 'quality_encoding' not in input_params and input_params['quality_encoding'] is not None:
             raise ValueError('quality_encoding not defined')
         elif input_params['quality_encoding'] not in ('phred33', 'phred64'):
             raise ValueError('quality_encoding must be phred33 or phred64')
 
         # set adapter trimming
-        if ('adapterFa' in input_params and
-            'seed_mismatches' in input_params and
-            'palindrome_clip_threshold' in input_params and
-            'simple_clip_threshold' in input_params):
+        if ('adapterFa' in input_params and input_params['adapterFa'] is not None and
+            'seed_mismatches' in input_params and input_params['seed_mismatches'] is not None and
+            'palindrome_clip_threshold' in input_params and input_params['quality_encoding'] is not None and
+            'simple_clip_threshold' in input_params) and input_params['simple_clip_threshold'] is not None:
             parameter_string = ("ILLUMINACLIP:" + self.ADAPTER_DIR +
                                     ":".join( (input_params['adapterFa'],
                                        input_params['seed_mismatches'], 
                                        input_params['palindrome_clip_threshold'],
                                        input_params['simple_clip_threshold']) ) + " " )
-        elif ('adapterFa' in input_params or
-            'seed_mismatches' in input_params or
-            'palindrome_clip_threshold' in input_params or
-            'simple_clip_threshold' in input_params):
+        elif ( ('adapterFa' in input_params and input_params['adapterFa'] is not None) or
+               ('seed_mismatches' in input_params and input_params['seed_mismatches'] is not None) or
+               ('palindrome_clip_threshold' in input_params and input_params['palindrome_clip_threshold'] is not None) or
+               ('simple_clip_threshold' in input_params input_params['simple_clip_threshold'] is not None) ):
             raise ValueError('Adapter Cliping requires Adapter, Seed Mismatches, Palindrome Clip Threshold and Simple Clip Threshold')
 
 
         # set Crop
-        if 'crop_length' in input_params:
+        if 'crop_length' in input_params and input_params['crop_length'] is not None:
             parameter_string += 'CROP:' + input_params['crop_length'] + ' '
 
         # set Headcrop
-        if 'head_crop_length' in input_params:
+        if 'head_crop_length' in input_params and input_params['head_crop_length'] is not None:
             parameter_string += 'HEADCROP:' + input_params['head_crop_length'] + ' '
 
 
         # set Leading
-        if 'leading_min_quality' in input_params:
+        if 'leading_min_quality' in input_params and input_params['leading_min_quality'] is not None:
             parameter_string += 'LEADING:' + input_params['leading_min_quality'] + ' '
 
 
         # set Trailing
-        if 'trailing_min_quality' in input_params:
+        if 'trailing_min_quality' in input_params and input_params['trailing_min_quality'] is not None:
             parameter_string += 'TRAILING:' + input_params['trailing_min_quality'] + ' '
 
 
         # set sliding window
-        if 'sliding_window_size' in input_params and 'sliding_window_min_quality' in input_params:
+        if 'sliding_window_size' in input_params and input_params['sliding_window_size'] is not None and 
+            'sliding_window_min_quality' in input_params and input_params['sliding_window_min_quality'] is not None:
             parameter_string += 'SLIDINGWINDOW:' + input_params['sliding_window_size'] + ":" + input_params['sliding_window_min_quality'] + ' '
-        elif 'sliding_window_size' in input_params or 'sliding_window_min_quality' in input_params:
+        elif ( ('sliding_window_size' in input_params and input_params['sliding_window_size'] is not None) or 
+               ('sliding_window_min_quality' in input_params and input_params['sliding_window_min_quality'] is not None) ):
             raise ValueError('Sliding Window filtering requires both Window Size and Window Minimum Quality to be set')
             
 
         # set min length
-        if 'min_length' in input_params:
+        if 'min_length' in input_params and input_params['min_length'] is not None:
             parameter_string += 'MINLEN:' + input_params['min_length'] + ' '
 
         if parameter_string == '':
@@ -142,7 +144,7 @@ class Trimmomatic:
             readLibrary = wsClient.get_objects([{'name': input_params['input_read_library'], 
                                                             'workspace' : input_params['input_ws']}])[0]
         except Exception as e:
-            raise ValueError('Unable to fet read library object from workspace: ' + str(e))
+            raise ValueError('Unable to get read library object from workspace: ' + str(e))
 
 
         if input_params['read_type'] == 'PE':
