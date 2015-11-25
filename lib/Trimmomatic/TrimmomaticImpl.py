@@ -144,7 +144,7 @@ class Trimmomatic:
             readLibrary = wsClient.get_objects([{'name': input_params['input_read_library'], 
                                                             'workspace' : input_params['input_ws']}])[0]
         except Exception as e:
-            raise ValueError('Unable to get read library object from workspace: ' + str(e))
+            raise ValueError('Unable to get read library object from workspace: (' + input_params['input_ws']+ '/' + input_params['input_read_library'] +')' + str(e))
 
 
         if input_params['read_type'] == 'PE':

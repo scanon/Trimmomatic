@@ -28,6 +28,7 @@ RUN curl http://www.usadellab.org/cms/uploads/supplementary/Trimmomatic/Trimmoma
 # -----------------------------------------
 
 # COPY ./ /kb/module
+
 COPY ./ /kb/module
 RUN mkdir -p /kb/module/work
 
