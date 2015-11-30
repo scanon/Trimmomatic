@@ -46,9 +46,7 @@ module Trimmomatic {
 		int crop_length;
 		int head_crop_length;
 		int min_length;
-		string output_paired_end_library;
-		string output_unpaired_forward;
-		string output_unpaired_reverse;
+		string output_read_library;
 	} TrimmomaticInput;
 
 	funcdef runTrimmomatic(TrimmomaticInput input_params) 

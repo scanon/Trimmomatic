@@ -48,6 +48,13 @@ parameters :
 			Read quality encoding format.
 		long-hint : |
 			Read quality encoding format.
+	output_read_library :
+		ui-name : |
+			Output Library name
+		short-hint : |
+			Base name for output read library object(s)
+		long-hint : |
+			Base name for output read library object(s)
 	adapterFa :
 		ui-name : |
 			Adapters

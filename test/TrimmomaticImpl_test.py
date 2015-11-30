@@ -42,6 +42,8 @@ class TrimmoaticTest(unittest.TestCase):
         input_params['sliding_window_size']='4'
         input_params['sliding_window_min_quality']='15'
         input_params['min_length']='100'
+        input_params['output_read_library']='testing'
+        input_params['output_ws'] = input_params['input_ws']
 	result=self.cc.runTrimmomatic(ctx, input_params)
         print result
         assert result[0].find('Completed successfully')>=0

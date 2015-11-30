@@ -105,6 +105,7 @@ class Trimmomatic:
     def __init__(self, config):
         #BEGIN_CONSTRUCTOR
         self.workspaceURL = config['workspace-url']
+        self.shockURL = config['shock-url']
         #END_CONSTRUCTOR
         pass
 
@@ -199,6 +200,50 @@ class Trimmomatic:
 
             stdout, stderr = cmdProcess.communicate()
             report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr " + stderr
+
+
+            #get read counts
+            match = re.search(r'Both Surviving: (\d+).*?Forward Only Surviving: (\d+).*?Reverse Only Surviving: (\d+)', report)
+            read_count_paired = match.group(1)
+            read_count_forward_only = match.group(2)
+            read_count_reverse_only = match.group(3)
+
+            #upload reads forward paired
+            cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'forward_paired_' + forward_reads['file_name'], 
+                                   '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
+                                   '--outobj', input_params['output_read_library'] + '_forward_paired', '--readcount', read_count_paired ) )
+
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            stdout, stderr = cmdProcess.communicate()
+            report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+
+            #upload reads reverse paired
+            cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'reverse_paired_' + reverse_reads['file_name'], 
+                                   '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
+                                   '--outobj', input_params['output_read_library'] + '_reverse_paired', '--readcount', read_count_paired ) )
+
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            stdout, stderr = cmdProcess.communicate()
+            report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+
+            #upload reads forward unpaired
+            cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'forward_unpaired_' + forward_reads['file_name'], 
+                                   '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
+                                   '--outobj', input_params['output_read_library'] + '_forward_unpaired', '--readcount', read_count_forward_only ) )
+
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            stdout, stderr = cmdProcess.communicate()
+            report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+
+            #upload reads reverse unpaired
+            cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'reverse_unpaired_' + reverse_reads['file_name'], 
+                                   '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
+                                   '--outobj', input_params['output_read_library'] + '_reverse_unpaired', '--readcount', read_count_reverse_only ) )
+
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            stdout, stderr = cmdProcess.communicate()
+            report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+
         else:
             if 'handle' in readLibrary['data']:
                 reads_file = open(readLibrary['data']['handle']['file_name'], 'w', 0)
@@ -215,7 +260,21 @@ class Trimmomatic:
             stdout, stderr = cmdProcess.communicate()
             report = "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
 
+            #get read count
+            match = re.search(r'Surviving: (\d+)', report)
+            readcount = match.group(1)
+
+            #upload reads
+            cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'trimmed_' + readLibrary['data']['handle']['file_name'], 
+                                   '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
+                                   '--outobj', input_params['output_read_library'], '--readcount', readcount ) )
+
+            cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+            stdout, stderr = cmdProcess.communicate()
+            report += "cmdstring: " + cmdstring + " stdout: " + stdout + " stderr: " + stderr
+
         #print report
+
 
         #END runTrimmomatic
 

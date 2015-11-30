@@ -228,6 +228,13 @@
 			"text_options": {
 				"validate_as": "int"
 			}
+		},
+		{
+			"id": "output_read_library",
+			"optional": false,
+			"advanced": false,
+			"default_values": [ "" ],
+			"field_type": "text"
 		}
 	],
 	"behavior": {
@@ -295,6 +302,10 @@
 				{
 					"input_parameter": "min_length",
 					"target_property": "min_length"
+				},
+				{
+					"input_parameter": "output_read_library",
+					"target_property": "output_read_library"
 				}
 
 			],
