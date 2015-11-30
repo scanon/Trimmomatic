@@ -135,6 +135,9 @@ class Trimmomatic:
         wsClient = workspaceService(self.workspaceURL, token=token)
         headers = {'Authorization': 'OAuth '+token}
 
+        if ('output_ws' not in input_params or input_params['output_ws'] is None):
+            input_params['output_ws'] = input_params['input_ws']
+
         trimmomatic_params  = self.parse_trimmomatic_steps(input_params)
         trimmomatic_options = input_params['read_type'] + ' -' + input_params['quality_encoding']
 
