@@ -214,7 +214,7 @@ class Trimmomatic:
             #upload reads forward paired
             cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'forward_paired_' + forward_reads['file_name'], 
                                    '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
-                                   '--outobj', input_params['output_read_library'] + '_forward_paired', '--readcount', read_count_paired, '--token', token ) )
+                                   '--outobj', input_params['output_read_library'] + '_forward_paired', '--readcount', read_count_paired, '--token', "'%s'"%token ) )
 
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             stdout, stderr = cmdProcess.communicate()
@@ -223,7 +223,7 @@ class Trimmomatic:
             #upload reads reverse paired
             cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'reverse_paired_' + reverse_reads['file_name'], 
                                    '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
-                                   '--outobj', input_params['output_read_library'] + '_reverse_paired', '--readcount', read_count_paired, '--token', token ) )
+                                   '--outobj', input_params['output_read_library'] + '_reverse_paired', '--readcount', read_count_paired, '--token', "'%s'"%token ) )
 
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             stdout, stderr = cmdProcess.communicate()
@@ -232,7 +232,7 @@ class Trimmomatic:
             #upload reads forward unpaired
             cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'forward_unpaired_' + forward_reads['file_name'], 
                                    '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
-                                   '--outobj', input_params['output_read_library'] + '_forward_unpaired', '--readcount', read_count_forward_only, '--token', token ) )
+                                   '--outobj', input_params['output_read_library'] + '_forward_unpaired', '--readcount', read_count_forward_only, '--token', "'%s'"%token ) )
 
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             stdout, stderr = cmdProcess.communicate()
@@ -241,7 +241,7 @@ class Trimmomatic:
             #upload reads reverse unpaired
             cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'reverse_unpaired_' + reverse_reads['file_name'], 
                                    '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
-                                   '--outobj', input_params['output_read_library'] + '_reverse_unpaired', '--readcount', read_count_reverse_only, '--token', token ) )
+                                   '--outobj', input_params['output_read_library'] + '_reverse_unpaired', '--readcount', read_count_reverse_only, '--token', "'%s'"%token ) )
 
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             stdout, stderr = cmdProcess.communicate()
@@ -270,7 +270,7 @@ class Trimmomatic:
             #upload reads
             cmdstring = " ".join( ('ws-tools fastX2reads --inputfile', 'trimmed_' + readLibrary['data']['handle']['file_name'], 
                                    '--wsurl', self.workspaceURL, '--shockurl', self.shockURL, '--outws', input_params['output_ws'],
-                                   '--outobj', input_params['output_read_library'], '--readcount', readcount, '--token', token ) )
+                                   '--outobj', input_params['output_read_library'], '--readcount', readcount, '--token', "'%s'"%token ) )
 
             cmdProcess = subprocess.Popen(cmdstring, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
             stdout, stderr = cmdProcess.communicate()
